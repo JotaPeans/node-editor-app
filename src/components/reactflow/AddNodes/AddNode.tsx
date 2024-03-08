@@ -1,57 +1,71 @@
-import { Dispatch, SetStateAction } from "react";
 import { useReactFlow, useViewport } from "reactflow";
 import { v4 } from "uuid";
-import { TextCursorInput } from "lucide-react";
+import addNodeParams from "../addNodeParams";
 
-interface AddTextNodeProps {
+interface AddNodeProps {
     fromEdgeX?: number
     fromEdgeY?: number
+    nodeType: "text" | "boolean"
+    buttonText: string
     source?: string
     handleId?: string
-    closeMenu?: () => void
+    closeMenu: () => void
 }
 
-const AddTextNode = ({ fromEdgeX, fromEdgeY, source, handleId, closeMenu }: AddTextNodeProps) => {
+const AddNode = ({ fromEdgeX, fromEdgeY, nodeType, buttonText, source, handleId, closeMenu }: AddNodeProps) => {
     const { x: viewPortX, y: viewPortY, zoom: viewPortZoom } = useViewport();
     const { screenToFlowPosition, setNodes, setEdges } = useReactFlow();
     
-    const fromEdge = Boolean(fromEdgeX || fromEdgeY);
-    
+    const fromEdge = Boolean(fromEdgeX && fromEdgeY);
+
     return (
         <button
-            className="w-full min-h-8 rounded-lg bg-gradient-to-r from-teal-500/10 to-primary-dark/10 hover:bg-secondary flex items-center gap-2 px-2"
+            className="w-full min-h-8 rounded-lg hover:bg-secondary flex items-center gap-2 px-2"
+            style={{
+                background: addNodeParams[nodeType].background,
+            }}
             onClick={() => {
                 closeMenu && closeMenu();
+
                 const id = v4();
+
                 setNodes((nodes: any) => {
                     return [
                         ...nodes,
                         { 
                             id: id,
-                            type: "text",
+                            type: nodeType,
                             position: fromEdge ? screenToFlowPosition({
                                 x: fromEdgeX!,
                                 y: fromEdgeY!,
                             }) : {
                                 x: (viewPortX * -1) / viewPortZoom + Math.floor(Math.random() * 300),
                                 y: (viewPortY * -1) / viewPortZoom + Math.floor(Math.random() * 300) 
-                            },  
+                            }, 
                             data: {
-                                label: "Text"
+                                label: nodeType
                             }
                         }
                     ];
                 });
-            
+
                 source && setEdges((eds) =>
-                    eds.concat({ id, type: "custom", data: "text", source: source, target: id, sourceHandle: handleId, targetHandle: "input" }),
+                    eds.concat({
+                        id,
+                        type: "custom",
+                        data: nodeType,
+                        source: source,
+                        target: id,
+                        sourceHandle: handleId,
+                        targetHandle: "input-".concat(nodeType)
+                    }),
                 );
             }}
         >
-            <TextCursorInput size={20}/>
-            <span>Texto</span>
+            { addNodeParams[nodeType].icon }
+            <span className="capitalize">{buttonText}</span>
         </button>
     );
 }
  
-export default AddTextNode;
+export default AddNode;

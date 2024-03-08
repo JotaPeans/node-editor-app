@@ -4,27 +4,39 @@ export type handlerNodeType = "text" | "boolean" | "any";
 
 export type ColorsProps = {
     [key in handlerNodeType]: {
-        bg: string;
-        border: string;
         color: string
+        buttonStyle: {
+            color: string,
+            backgroundColor: string,
+            backgroundColorHover: string
+        }
     };
 };
 
 const colors: ColorsProps = {
-    "text": {
-        "bg": "!bg-teal-500",
-        "border": "!border-teal-500",
-        "color": teal[500]
+    text: {
+        color: teal[500],
+        buttonStyle: {
+            color: "white",
+            backgroundColor: teal[500],
+            backgroundColorHover: teal[600]
+        }
     },
-    "boolean": {
-        "bg": "!bg-blue-500",
-        "border": "!border-blue-500",
-        "color": blue[500]
+    boolean: {
+        color: blue[500],
+        buttonStyle: {
+            color: "white",
+            backgroundColor: blue[500],
+            backgroundColorHover: blue[600]
+        }
     },
-    "any": {
-        "bg": "!bg-zinc-400",
-        "border": "!border-zinc-400",
-        "color": zinc[400]
+    any: {
+        color: zinc[400],
+        buttonStyle: {
+            color: zinc[900],
+            backgroundColor: zinc[400],
+            backgroundColorHover: zinc[500]
+        }
     }
 }
 

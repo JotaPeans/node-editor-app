@@ -13,14 +13,6 @@ interface CustomHandlerProps {
     connectable?: number
 }
 
-export type ColorsProps = {
-    [key in handlerNodeType]: {
-        bg: string;
-        border: string;
-        color: string
-    };
-};
-
 const CustomHandler = ({ id, nodeId, handlerNodeType, onConnectCallback, type, position, text, connectable }: CustomHandlerProps) => {
     const edges = useEdges();
     const { getNode } = useReactFlow();

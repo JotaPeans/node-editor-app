@@ -1,8 +1,6 @@
 "use client"
 
 import ContextMenu from "@/components/ContextMenu";
-import AddBooleanNode from "@/components/reactflow/AddNodes/AddBooleanNode";
-import AddTextNode from "@/components/reactflow/AddNodes/AddTextNode";
 import BooleanNode from "@/components/reactflow/customNodes/BooleanNode";
 import TextNode from "@/components/reactflow/customNodes/TextNode";
 
@@ -10,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, { Background, BackgroundVariant, Controls, OnConnectStartParams, addEdge, useEdgesState, useNodesState, useReactFlow } from "reactflow";
 import colors from "tailwindcss/colors";
 import CustomEdge from "@/components/reactflow/customEdges/CustomEdge";
+import AddNode from "@/components/reactflow/AddNodes/AddNode";
 
 const nodeTypes = {
     text: TextNode,
@@ -118,20 +117,20 @@ const App = () => {
                 className="p-1 py-2"
             >
                 <div className="w-full h-full flex flex-col gap-1 overflow-y-auto pr-3">
-                    <AddTextNode
-                        fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
-                        fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
-                        source={connectingNodeId.current ?? undefined}
-                        handleId={connectingHandleId.current ?? undefined}
-                        closeMenu={closeContextMenu}
-                    />
-                    <AddBooleanNode
-                        fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
-                        fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
-                        source={connectingNodeId.current ?? undefined}
-                        handleId={connectingHandleId.current ?? undefined}
-                        closeMenu={closeContextMenu}
-                    />
+                    {
+                        [{nodeType: "text", buttonText: "Texto"}, {nodeType: "boolean", buttonText: "Boolean"}].map((addNode, key) => (
+                            <AddNode
+                                key={key}
+                                fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
+                                fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
+                                buttonText={addNode.buttonText}
+                                nodeType={addNode.nodeType as any}
+                                source={connectingNodeId.current ?? undefined}
+                                handleId={connectingHandleId.current ?? undefined}
+                                closeMenu={closeContextMenu}
+                            />
+                        ))
+                    }
                 </div>
             </ContextMenu>
         </main>
