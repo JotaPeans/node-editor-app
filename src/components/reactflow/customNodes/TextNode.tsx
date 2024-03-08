@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import { useKeyPress, NodeProps, Position, useReactFlow } from "reactflow";
-import CustomHandler from "../customHandles/CustomHandler";
+import CustomHandler from "../CustomHandler";
 
 const TextNode = (props: NodeProps) => {
     const deletePressed = useKeyPress("Delete");

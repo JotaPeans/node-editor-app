@@ -1,6 +1,6 @@
 import { Handle, Position, useEdges, getConnectedEdges, useReactFlow } from "reactflow";
 import { useMemo } from "react";
-import colors, { handlerNodeType } from "../colors";
+import colors, { handlerNodeType } from "./configs/colors";
 
 interface CustomHandlerProps {
     id?: string

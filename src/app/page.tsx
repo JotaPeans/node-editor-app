@@ -7,8 +7,8 @@ import TextNode from "@/components/reactflow/customNodes/TextNode";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, { Background, BackgroundVariant, Controls, OnConnectStartParams, addEdge, useEdgesState, useNodesState, useReactFlow } from "reactflow";
 import colors from "tailwindcss/colors";
-import CustomEdge from "@/components/reactflow/customEdges/CustomEdge";
-import AddNode from "@/components/reactflow/AddNodes/AddNode";
+import CustomEdge from "@/components/reactflow/CustomEdge";
+import AddNode from "@/components/reactflow/AddNode";
 
 const nodeTypes = {
     text: TextNode,

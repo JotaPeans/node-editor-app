@@ -1,6 +1,6 @@
 import { useReactFlow, useViewport } from "reactflow";
 import { v4 } from "uuid";
-import addNodeParams from "../addNodeParams";
+import addNodeParams from "./configs/addNodeParams";
 
 interface AddNodeProps {
     fromEdgeX?: number

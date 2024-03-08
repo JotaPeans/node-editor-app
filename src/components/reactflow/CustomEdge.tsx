@@ -1,7 +1,7 @@
 import { BaseEdge, EdgeLabelRenderer, EdgeProps, getBezierPath, useReactFlow } from "reactflow";
 // import { blue } from "tailwindcss/colors";
 import { Unlink } from "lucide-react";
-import colors, { ColorsProps } from "../colors";
+import colors, { ColorsProps } from "./configs/colors";
 import { useState } from "react";
 
 const CustomEdge = ({ id, selected, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, data }: EdgeProps) => {

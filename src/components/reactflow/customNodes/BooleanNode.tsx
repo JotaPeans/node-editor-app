@@ -2,7 +2,7 @@
 
 import React, { memo, useState } from "react";
 import { useKeyPress, NodeProps, Position, useReactFlow } from "reactflow";
-import CustomHandler from "../customHandles/CustomHandler";
+import CustomHandler from "../CustomHandler";
 
 const BooleanNode = (props: NodeProps) => {
     const [ inputConnected, setInputConnected ] = useState(false);
