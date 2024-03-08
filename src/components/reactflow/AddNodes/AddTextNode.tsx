@@ -44,7 +44,7 @@ const AddTextNode = ({ fromEdgeX, fromEdgeY, source, handleId, closeMenu }: AddT
                 });
             
                 source && setEdges((eds) =>
-                    eds.concat({ id, type: "text", source: source, target: id, sourceHandle: handleId, targetHandle: "input" }),
+                    eds.concat({ id, type: "custom", data: "text", source: source, target: id, sourceHandle: handleId, targetHandle: "input" }),
                 );
             }}
         >

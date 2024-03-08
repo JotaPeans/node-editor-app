@@ -3,15 +3,13 @@
 import ContextMenu from "@/components/ContextMenu";
 import AddBooleanNode from "@/components/reactflow/AddNodes/AddBooleanNode";
 import AddTextNode from "@/components/reactflow/AddNodes/AddTextNode";
-import BooleanEdge from "@/components/reactflow/customEdges/BooleanEdge";
-import TextEdge from "@/components/reactflow/customEdges/TextEdge";
 import BooleanNode from "@/components/reactflow/customNodes/BooleanNode";
 import TextNode from "@/components/reactflow/customNodes/TextNode";
 
-import { v4 } from "uuid";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, { Background, BackgroundVariant, Controls, OnConnectStartParams, addEdge, useEdgesState, useNodesState, useReactFlow } from "reactflow";
 import colors from "tailwindcss/colors";
+import CustomEdge from "@/components/reactflow/customEdges/CustomEdge";
 
 const nodeTypes = {
     text: TextNode,
@@ -19,8 +17,7 @@ const nodeTypes = {
 }
 
 const edgeTypes = {
-    text: TextEdge,
-    boolean: BooleanEdge
+    custom: CustomEdge
 }
 
 interface contextMenuProps {
@@ -50,7 +47,8 @@ const App = () => {
             setEdges(eds => {
                 return addEdge({
                     ...params,
-                    type: nodes.find(node => node.id === params.source)?.type
+                    type: "custom",
+                    data: nodes.find(node => node.id === params.source)?.type
                 }, eds);
             });
         }

@@ -48,7 +48,7 @@ const AddBooleanNode = ({ fromEdgeX, fromEdgeY, source, handleId, closeMenu }: A
                 });
 
                 source && setEdges((eds) =>
-                    eds.concat({ id, type: sourceNode?.type, source: source, target: id, sourceHandle: handleId, targetHandle: "input-boolean" }),
+                    eds.concat({ id, type: "custom", data: "boolean", source: source, target: id, sourceHandle: handleId, targetHandle: "input-boolean" }),
                 );
             }}
         >

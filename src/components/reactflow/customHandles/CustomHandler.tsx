@@ -1,8 +1,6 @@
 import { Handle, Position, useEdges, getConnectedEdges, useReactFlow } from "reactflow";
-import { blue, teal, zinc } from "tailwindcss/colors";
 import { useMemo } from "react";
-
-type handlerNodeType = "text" | "boolean" | "any";
+import colors, { handlerNodeType } from "../colors";
 
 interface CustomHandlerProps {
     id?: string
@@ -15,7 +13,7 @@ interface CustomHandlerProps {
     connectable?: number
 }
 
-type ColorsProps = {
+export type ColorsProps = {
     [key in handlerNodeType]: {
         bg: string;
         border: string;
@@ -26,24 +24,6 @@ type ColorsProps = {
 const CustomHandler = ({ id, nodeId, handlerNodeType, onConnectCallback, type, position, text, connectable }: CustomHandlerProps) => {
     const edges = useEdges();
     const { getNode } = useReactFlow();
-
-    const colors: ColorsProps = {
-        "text": {
-            "bg": "!bg-teal-500",
-            "border": "!border-teal-500",
-            "color": teal[500]
-        },
-        "boolean": {
-            "bg": "!bg-blue-500",
-            "border": "!border-blue-500",
-            "color": blue[500]
-        },
-        "any": {
-            "bg": "!bg-zinc-400",
-            "border": "!border-zinc-400",
-            "color": zinc[400]
-        }
-    }
 
     const connected = edges.find(edg => {
         if(edg.sourceHandle && (edg[type] === nodeId && edg.sourceHandle === id)) {

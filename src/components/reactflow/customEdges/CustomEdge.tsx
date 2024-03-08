@@ -1,8 +1,9 @@
 import { BaseEdge, EdgeLabelRenderer, EdgeProps, getBezierPath, useReactFlow } from "reactflow";
-import { blue } from "tailwindcss/colors";
+// import { blue } from "tailwindcss/colors";
 import { Unlink } from "lucide-react";
+import colors, { ColorsProps } from "../colors";
 
-const BooleanEdge = ({ id, selected, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }: EdgeProps) => {
+const CustomEdge = ({ id, selected, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, data }: EdgeProps) => {
     const { setEdges } = useReactFlow();
     const [ edgePath, labelX, labelY ] = getBezierPath({
         sourceX,
@@ -20,7 +21,7 @@ const BooleanEdge = ({ id, selected, sourceX, sourceY, targetX, targetY, sourceP
     return (
         <>  
             <BaseEdge id={id} path={edgePath} style={{
-                stroke: blue[500],
+                stroke: colors[data as keyof ColorsProps].color,
                 strokeWidth: 3,
             }} />
             <EdgeLabelRenderer>
@@ -40,4 +41,4 @@ const BooleanEdge = ({ id, selected, sourceX, sourceY, targetX, targetY, sourceP
     );
 }
  
-export default BooleanEdge;
+export default CustomEdge;
