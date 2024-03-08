@@ -7,10 +7,11 @@ interface AddBooleanNodeProps {
     fromEdgeX?: number
     fromEdgeY?: number
     source?: string
+    handleId?: string
     closeMenu: () => void
 }
 
-const AddBooleanNode = ({ fromEdgeX, fromEdgeY, source, closeMenu }: AddBooleanNodeProps) => {
+const AddBooleanNode = ({ fromEdgeX, fromEdgeY, source, handleId, closeMenu }: AddBooleanNodeProps) => {
     const { x: viewPortX, y: viewPortY, zoom: viewPortZoom } = useViewport();
     const { screenToFlowPosition, setNodes, setEdges, getNode } = useReactFlow();
     
@@ -47,7 +48,7 @@ const AddBooleanNode = ({ fromEdgeX, fromEdgeY, source, closeMenu }: AddBooleanN
                 });
 
                 source && setEdges((eds) =>
-                    eds.concat({ id, type: sourceNode?.type, source: source, target: id }),
+                    eds.concat({ id, type: sourceNode?.type, source: source, target: id, sourceHandle: handleId, targetHandle: "input-boolean" }),
                 );
             }}
         >

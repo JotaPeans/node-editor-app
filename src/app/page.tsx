@@ -35,7 +35,9 @@ const App = () => {
     const [ edges, setEdges, onEdgesChange ] = useEdgesState([]);
 
     const { screenToFlowPosition } = useReactFlow();
+    
     const connectingNodeId = useRef<string | null>(null);
+    const connectingHandleId = useRef<string | null>(null);
 
     const [ contextMenu, setContextMenu ] = useState<contextMenuProps>({ show: false, x: 0, y: 0, fromEdge: false });
 
@@ -54,14 +56,17 @@ const App = () => {
         }
     }, [nodes]);
 
-    const onConnectStart = useCallback((_: any, { nodeId }: OnConnectStartParams) => {
-        connectingNodeId.current = nodeId;
-        nodeId && setContextMenu(contextMenu => {
-            return {
-                ...contextMenu,
-                source: nodeId
-            }
-        })
+    const onConnectStart = useCallback((_: any, { nodeId, handleId, handleType }: OnConnectStartParams) => {
+        if(handleType === "source") {
+            connectingNodeId.current = nodeId;
+            connectingHandleId.current = handleId;
+            nodeId && setContextMenu(contextMenu => {
+                return {
+                    ...contextMenu,
+                    source: nodeId
+                }
+            })
+        }
     }, []);
 
     const onConnectEnd = useCallback((event: MouseEvent | TouchEvent) => {
@@ -79,6 +84,7 @@ const App = () => {
         const { pageX, pageY } = e;
         setContextMenu({ show: true, x: x ?? pageX, y: y ?? pageY, fromEdge: Boolean(x || y) });
     }
+
     function closeContextMenu() {
         setContextMenu({ show: false, x: contextMenu.x, y: contextMenu.y, fromEdge: false });
     }
@@ -101,9 +107,6 @@ const App = () => {
                     minZoom: 1
                 }}
                 edges={edges}
-                // defaultEdgeOptions={{
-                //     animated: true
-                // }}
             >
                 <Background color={colors.zinc[600]} size={1.5} variant={BackgroundVariant.Dots}/>
                 <Controls/>
@@ -121,12 +124,14 @@ const App = () => {
                         fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
                         fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
                         source={connectingNodeId.current ?? undefined}
+                        handleId={connectingHandleId.current ?? undefined}
                         closeMenu={closeContextMenu}
                     />
                     <AddBooleanNode
                         fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
                         fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
                         source={connectingNodeId.current ?? undefined}
+                        handleId={connectingHandleId.current ?? undefined}
                         closeMenu={closeContextMenu}
                     />
                 </div>

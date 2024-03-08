@@ -7,10 +7,11 @@ interface AddTextNodeProps {
     fromEdgeX?: number
     fromEdgeY?: number
     source?: string
+    handleId?: string
     closeMenu?: () => void
 }
 
-const AddTextNode = ({ fromEdgeX, fromEdgeY, source, closeMenu }: AddTextNodeProps) => {
+const AddTextNode = ({ fromEdgeX, fromEdgeY, source, handleId, closeMenu }: AddTextNodeProps) => {
     const { x: viewPortX, y: viewPortY, zoom: viewPortZoom } = useViewport();
     const { screenToFlowPosition, setNodes, setEdges } = useReactFlow();
     
@@ -43,7 +44,7 @@ const AddTextNode = ({ fromEdgeX, fromEdgeY, source, closeMenu }: AddTextNodePro
                 });
             
                 source && setEdges((eds) =>
-                    eds.concat({ id, type: "text", source: source, target: id }),
+                    eds.concat({ id, type: "text", source: source, target: id, sourceHandle: handleId, targetHandle: "input" }),
                 );
             }}
         >
