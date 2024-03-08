@@ -9,7 +9,7 @@ import BooleanNode from "@/components/reactflow/customNodes/BooleanNode";
 import TextNode from "@/components/reactflow/customNodes/TextNode";
 
 import { v4 } from "uuid";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, { Background, BackgroundVariant, Controls, OnConnectStartParams, addEdge, useEdgesState, useNodesState, useReactFlow } from "reactflow";
 import colors from "tailwindcss/colors";
 
@@ -39,6 +39,10 @@ const App = () => {
 
     const [ contextMenu, setContextMenu ] = useState<contextMenuProps>({ show: false, x: 0, y: 0, fromEdge: false });
 
+    useEffect(() => {
+        connectingNodeId.current = null;
+    }, [edges]);
+
     const onConnect = useCallback(async (params: any) => {
         if(params.source !== params.target) {
             setEdges(eds => {
@@ -67,23 +71,6 @@ const App = () => {
 
         if(targetIsPane && connectingNodeId.current) {
             openContextMenu(event as any, (event as any).clientX, (event as any).clientY);
-            // const id = v4();
-
-            // const newNode = {
-            //     id: id,
-            //     type: "text",
-            //     position: screenToFlowPosition({
-            //         x: (event as any).clientX,
-            //         y: (event as any).clientY,
-            //     }),
-            //     data: { label: `Node` },
-            //     origin: [0.5, 0.0],
-            // };
-
-            // setNodes((nds) => nds.concat(newNode));
-            // setEdges((eds) =>
-            //     eds.concat({ id, type: "text", source: connectingNodeId.current!, target: id }),
-            // );
         }
     }, [screenToFlowPosition]);
 
