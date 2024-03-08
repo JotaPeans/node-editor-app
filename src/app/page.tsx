@@ -1,113 +1,151 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+import ContextMenu from "@/components/ContextMenu";
+import AddBooleanNode from "@/components/reactflow/AddNodes/AddBooleanNode";
+import AddTextNode from "@/components/reactflow/AddNodes/AddTextNode";
+import BooleanEdge from "@/components/reactflow/customEdges/BooleanEdge";
+import TextEdge from "@/components/reactflow/customEdges/TextEdge";
+import BooleanNode from "@/components/reactflow/customNodes/BooleanNode";
+import TextNode from "@/components/reactflow/customNodes/TextNode";
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+import { v4 } from "uuid";
+import { useCallback, useRef, useState } from "react";
+import ReactFlow, { Background, BackgroundVariant, Controls, OnConnectStartParams, addEdge, useEdgesState, useNodesState, useReactFlow } from "reactflow";
+import colors from "tailwindcss/colors";
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+const nodeTypes = {
+    text: TextNode,
+    boolean: BooleanNode
 }
+
+const edgeTypes = {
+    text: TextEdge,
+    boolean: BooleanEdge
+}
+
+interface contextMenuProps {
+    show: boolean
+    x: number
+    y: number
+    fromEdge: boolean
+}
+
+const App = () => {
+    const [ nodes, setNodes, onNodesChange ] = useNodesState([]);
+    const [ edges, setEdges, onEdgesChange ] = useEdgesState([]);
+
+    const { screenToFlowPosition } = useReactFlow();
+    const connectingNodeId = useRef<string | null>(null);
+
+    const [ contextMenu, setContextMenu ] = useState<contextMenuProps>({ show: false, x: 0, y: 0, fromEdge: false });
+
+    const onConnect = useCallback(async (params: any) => {
+        if(params.source !== params.target) {
+            setEdges(eds => {
+                return addEdge({
+                    ...params,
+                    type: nodes.find(node => node.id === params.source)?.type
+                }, eds);
+            });
+        }
+    }, [nodes]);
+
+    const onConnectStart = useCallback((_: any, { nodeId }: OnConnectStartParams) => {
+        connectingNodeId.current = nodeId;
+        nodeId && setContextMenu(contextMenu => {
+            return {
+                ...contextMenu,
+                source: nodeId
+            }
+        })
+    }, []);
+
+    const onConnectEnd = useCallback((event: MouseEvent | TouchEvent) => {
+        if (!connectingNodeId.current) return;
+        
+        const targetIsPane = (event.target as any)?.classList.contains("react-flow__pane");
+
+        if(targetIsPane && connectingNodeId.current) {
+            openContextMenu(event as any, (event as any).clientX, (event as any).clientY);
+            // const id = v4();
+
+            // const newNode = {
+            //     id: id,
+            //     type: "text",
+            //     position: screenToFlowPosition({
+            //         x: (event as any).clientX,
+            //         y: (event as any).clientY,
+            //     }),
+            //     data: { label: `Node` },
+            //     origin: [0.5, 0.0],
+            // };
+
+            // setNodes((nds) => nds.concat(newNode));
+            // setEdges((eds) =>
+            //     eds.concat({ id, type: "text", source: connectingNodeId.current!, target: id }),
+            // );
+        }
+    }, [screenToFlowPosition]);
+
+    function openContextMenu(e: MouseEvent, x?: number, y?: number) {
+        e.preventDefault();
+        const { pageX, pageY } = e;
+        setContextMenu({ show: true, x: x ?? pageX, y: y ?? pageY, fromEdge: Boolean(x || y) });
+    }
+    function closeContextMenu() {
+        setContextMenu({ show: false, x: contextMenu.x, y: contextMenu.y, fromEdge: false });
+    }
+    
+    return (
+        <main className="flex-1 bg-primary-dark" onContextMenu={e => openContextMenu(e as any)}>
+            <ReactFlow
+                nodes={nodes}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnectStart={onConnectStart}
+                onConnectEnd={onConnectEnd}
+                onConnect={onConnect}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
+                fitView
+                fitViewOptions={{
+                    duration: 700,
+                    padding: 500,
+                    minZoom: 1
+                }}
+                edges={edges}
+                // defaultEdgeOptions={{
+                //     animated: true
+                // }}
+            >
+                <Background color={colors.zinc[600]} size={1.5} variant={BackgroundVariant.Dots}/>
+                <Controls/>
+            </ReactFlow>
+            
+            <ContextMenu
+                show={contextMenu.show}
+                x={contextMenu.x}
+                y={contextMenu.y}
+                onClose={closeContextMenu}
+                className="p-1 py-2"
+            >
+                <div className="w-full h-full flex flex-col gap-1 overflow-y-auto pr-3">
+                    <AddTextNode
+                        fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
+                        fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
+                        source={connectingNodeId.current ?? undefined}
+                        closeMenu={closeContextMenu}
+                    />
+                    <AddBooleanNode
+                        fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
+                        fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
+                        source={connectingNodeId.current ?? undefined}
+                        closeMenu={closeContextMenu}
+                    />
+                </div>
+            </ContextMenu>
+        </main>
+    );
+}
+ 
+export default App;
