@@ -22,7 +22,7 @@ const BooleanNode = (props: NodeProps) => {
             </div>
 
             <CustomHandler
-                id="input-boolean"
+                id="input:any"
                 nodeId={props.id}
                 text="Entrada"
                 position={Position.Left}
@@ -34,8 +34,8 @@ const BooleanNode = (props: NodeProps) => {
 
             <input type="checkbox" name="" id="" disabled={inputConnected} />
 
-            <CustomHandler id="true-handler" nodeId={props.id} text="True" position={Position.Right} handlerNodeType="boolean" type="source"/>
-            <CustomHandler id="false-handler" nodeId={props.id} text="False" position={Position.Right} handlerNodeType="boolean" type="source"/>
+            <CustomHandler id="output:boolean:true" nodeId={props.id} text="True" position={Position.Right} handlerNodeType="boolean" type="source"/>
+            <CustomHandler id="output:boolean:false" nodeId={props.id} text="False" position={Position.Right} handlerNodeType="boolean" type="source"/>
         </div>
     );
 }

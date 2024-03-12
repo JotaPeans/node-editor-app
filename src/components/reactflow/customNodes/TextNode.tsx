@@ -20,11 +20,11 @@ const TextNode = (props: NodeProps) => {
                 {props.data.label}
             </div>
 
-            <CustomHandler connectable={1} id="input-text" nodeId={props.id} text="Texto" position={Position.Left} handlerNodeType="text" type="target"/>
+            <CustomHandler connectable={1} id="input:text" nodeId={props.id} text="Texto" position={Position.Left} handlerNodeType="text" type="target"/>
 
             <textarea className="rounded-lg bg-secondary border border-secondary-light min-h-24 p-1 text-white"></textarea>
 
-            <CustomHandler id="output" nodeId={props.id} text="Texto" position={Position.Right} handlerNodeType="text" type="source"/>
+            <CustomHandler id="output:text" nodeId={props.id} text="Texto" position={Position.Right} handlerNodeType="text" type="source"/>
         </div>
     );
 }

@@ -28,7 +28,9 @@ interface contextMenuProps {
 
 const App = () => {
     const [ nodes, setNodes, onNodesChange ] = useNodesState([]);
+    console.log("🚀 ~ App ~ nodes:", JSON.stringify(nodes))
     const [ edges, setEdges, onEdgesChange ] = useEdgesState([]);
+    console.log("🚀 ~ App ~ edges:", JSON.stringify(edges));
 
     const { screenToFlowPosition } = useReactFlow();
     
@@ -83,6 +85,7 @@ const App = () => {
     }
 
     function closeContextMenu() {
+        connectingHandleId.current = null;
         setContextMenu({ show: false, x: contextMenu.x, y: contextMenu.y, fromEdge: false });
     }
     
@@ -118,18 +121,22 @@ const App = () => {
             >
                 <div className="w-full h-full flex flex-col gap-1 overflow-y-auto pr-3">
                     {
-                        [{nodeType: "text", buttonText: "Texto"}, {nodeType: "boolean", buttonText: "Boolean"}].map((addNode, key) => (
-                            <AddNode
-                                key={key}
-                                fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
-                                fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
-                                buttonText={addNode.buttonText}
-                                nodeType={addNode.nodeType as any}
-                                source={connectingNodeId.current ?? undefined}
-                                handleId={connectingHandleId.current ?? undefined}
-                                closeMenu={closeContextMenu}
-                            />
-                        ))
+                        [{nodeType: "text", buttonText: "Texto"}, {nodeType: "boolean", buttonText: "Boolean"}].map((option, key) => {
+                            if(!connectingHandleId.current || connectingHandleId.current.split(":")[1] === option.nodeType) {
+                                return (
+                                    <AddNode
+                                        key={key}
+                                        fromEdgeX={contextMenu.fromEdge ? contextMenu.x : undefined}
+                                        fromEdgeY={contextMenu.fromEdge ? contextMenu.y : undefined}
+                                        buttonText={option.buttonText}
+                                        nodeType={option.nodeType as any}
+                                        source={connectingNodeId.current ?? undefined}
+                                        handleId={connectingHandleId.current ?? undefined}
+                                        closeMenu={closeContextMenu}
+                                    />
+                                )
+                            }
+                        })
                     }
                 </div>
             </ContextMenu>
