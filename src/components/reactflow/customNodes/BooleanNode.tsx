@@ -32,7 +32,11 @@ const BooleanNode = (props: NodeProps) => {
                 onConnectCallback={v => setInputConnected(v)}
             />
 
-            <input type="checkbox" name="" id="" disabled={inputConnected} />
+            {
+                inputConnected === false && (
+                    <input type="checkbox" name="" id=""/>
+                )
+            }
 
             <CustomHandler id="output:boolean:true" nodeId={props.id} text="True" position={Position.Right} handlerNodeType="boolean" type="source"/>
             <CustomHandler id="output:boolean:false" nodeId={props.id} text="False" position={Position.Right} handlerNodeType="boolean" type="source"/>
