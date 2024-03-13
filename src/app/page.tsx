@@ -28,9 +28,11 @@ interface contextMenuProps {
 
 const App = () => {
     const [ nodes, setNodes, onNodesChange ] = useNodesState([]);
-    console.log("🚀 ~ App ~ nodes:", JSON.stringify(nodes))
+    console.log("🚀 ~ App ~ nodes:", nodes)
+    // console.log("🚀 ~ App ~ nodes:", JSON.stringify(nodes));
     const [ edges, setEdges, onEdgesChange ] = useEdgesState([]);
-    console.log("🚀 ~ App ~ edges:", JSON.stringify(edges));
+    console.log("🚀 ~ App ~ edges:", edges)
+    // console.log("🚀 ~ App ~ edges:", JSON.stringify(edges));
 
     const { screenToFlowPosition } = useReactFlow();
     

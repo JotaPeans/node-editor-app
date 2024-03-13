@@ -13,7 +13,6 @@ interface AddNodeProps {
 }
 
 const AddNode = ({ fromEdgeX, fromEdgeY, nodeType, buttonText, source, handleId, closeMenu }: AddNodeProps) => {
-    console.log("🚀 ~ AddNode ~ handleId:", handleId)
     const { x: viewPortX, y: viewPortY, zoom: viewPortZoom } = useViewport();
     const { screenToFlowPosition, setNodes, setEdges } = useReactFlow();
     
@@ -58,7 +57,7 @@ const AddNode = ({ fromEdgeX, fromEdgeY, nodeType, buttonText, source, handleId,
                         source: source,
                         target: id,
                         sourceHandle: handleId,
-                        targetHandle: "input:".concat(nodeType)
+                        targetHandle: "input:".concat(nodeType === "boolean" ? "any" : nodeType)
                     }),
                 );
             }}
